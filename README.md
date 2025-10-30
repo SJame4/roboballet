@@ -25,7 +25,12 @@ pip install -r requirements.txt
 # glibc 2.41+ no longer allows that. They don't actually execute the stack, so
 # we can just clear the flag.
 # See: https://github.com/jax-ml/jax/issues/26781
+# (On Debian/Ubuntu systems the execstack utility can be installed with
+# `sudo apt-get install execstack`.)
+# The command below does not print anything when it succeeds.
 find venv/lib/python3.10/site-packages/jaxlib -name '*.so' -exec execstack -c {} \;
+# (Optional) Verify the stack flag is cleared.
+find venv/lib/python3.10/site-packages/jaxlib -name '*.so' -exec execstack -q {} \;
 
 # Install protobuf compiler and generate accessor library for our protobufs.
 wget https://github.com/protocolbuffers/protobuf/releases/download/v3.19.4/protoc-3.19.4-linux-x86_64.zip
@@ -61,7 +66,7 @@ tensorboard log files with metrics to ./tensorboard_log.
   least have one IK solution. We have included pre-generated start states so
   that our results can be reproduced, but for adapting this codebase for future
   work, an IK implementation needs to be provided.
-  See ik_solver.py.
+  See roboballet/environments/ik_solver.py.
 
 ## License and disclaimer
 
